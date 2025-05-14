@@ -1,0 +1,221 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Xwork • Post a Job – Step 1 / 5</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+/* ===== TOKENS ===== */
+:root{
+  --green:#14A800;
+  --green-dark:#0F8F7B;
+  --bg-grad-start:#eefdf2;
+  --bg-grad-end:#f7efff;
+  --glass:rgba(255,255,255,.68);
+  --glass-brd:rgba(255,255,255,.38);
+  --grey-50:#f9fafb;
+  --grey-100:#f3f4f6;
+  --grey-300:#d1d5db;
+  --grey-500:#6b7280;
+  --grey-900:#111827;
+  --radius:14px;
+  --t-fast:220ms cubic-bezier(.4,0,.2,1);
+}
+
+/* ==== RESET ==== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;
+  background:linear-gradient(135deg,var(--bg-grad-start),var(--bg-grad-end));
+  background-size:200% 200%;animation:bg 25s ease infinite;
+  color:var(--grey-900);
+}
+@keyframes bg{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+
+/* ==== SHELL ==== */
+.main{flex:1;display:grid;grid-template-columns:260px 1fr;gap:2rem;padding:2.5rem 2rem;max-width:1400px;margin:auto}
+@media(max-width:960px){.main{grid-template-columns:1fr}}
+/* wizard rail */
+.rail{
+  display:flex;flex-direction:column;gap:1.4rem;
+  position:sticky;top:2rem;height:max-content
+}
+.step-badge{
+  display:flex;align-items:center;gap:.9rem;padding:.85rem 1rem;border-radius:var(--radius);
+  font-weight:500;font-size:.95rem;cursor:pointer;user-select:none;
+  color:var(--grey-500);border:1px solid transparent;transition:background var(--t-fast),color var(--t-fast)
+}
+.step-badge i{font-size:1.2rem}
+.step-badge.active{
+  background:var(--glass);backdrop-filter:blur(14px) saturate(180%);
+  border:1px solid var(--glass-brd);color:var(--green)
+}
+.step-num{
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:var(--grey-100);font-weight:600
+}
+.active .step-num{background:var(--green);color:#fff}
+
+/* content card */
+.card{
+  background:var(--glass);border:1px solid var(--glass-brd);
+  backdrop-filter:blur(18px) saturate(180%);border-radius:var(--radius);
+  padding:3rem 2.6rem;box-shadow:0 22px 38px rgba(0,0,0,.14)
+}
+h1{
+  font-family:'Cinzel',serif;font-size:1.7rem;font-weight:700;margin-bottom:2.4rem
+}
+
+/* form elements */
+.field{margin-bottom:1.75rem}
+label{display:block;font-weight:500;margin-bottom:.4rem}
+input[type=text],textarea,select{
+  width:100%;padding:.9rem 1rem;font-size:1rem;border-radius:var(--radius);
+  border:1px solid var(--grey-300);background:#fff;transition:border var(--t-fast),box-shadow var(--t-fast)
+}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--green);outline:none;box-shadow:0 0 0 3px rgba(20,168,0,.16)
+}
+.char{font-size:.8rem;color:var(--grey-500);margin-top:.3rem;text-align:right}
+
+select option[disabled]{color:var(--grey-500)}
+
+/* next btn */
+.actions{display:flex;justify-content:flex-end;margin-top:3rem}
+.btn{
+  background:var(--green);color:#fff;border:none;border-radius:var(--radius);
+  padding:1rem 2.4rem;font-size:1rem;font-weight:600;cursor:pointer;transition:background var(--t-fast)
+}
+.btn:hover{background:var(--green-dark)}
+/* ===== SMALL ==== */
+@media(max-width:600px){
+  .card{padding:2.2rem 1.6rem}
+  h1{font-size:1.45rem}
+}
+</style>
+</head>
+<body>
+
+<main class="main">
+
+  <!-- ========== WIZARD RAIL ========== -->
+  <nav class="rail" aria-label="Job-post steps">
+    <div class="step-badge active"><span class="step-num">1</span>Job Overview</div>
+    <div class="step-badge"><span class="step-num">2</span>Scope & Budget</div>
+    <div class="step-badge"><span class="step-num">3</span>Skills & Expertise</div>
+    <div class="step-badge"><span class="step-num">4</span>Screening & Preferences</div>
+    <div class="step-badge"><span class="step-num">5</span>Review & Publish</div>
+  </nav>
+
+  <!-- ========== CONTENT ========== -->
+  <section class="card">
+    <h1>Step 1 · Job Overview</h1>
+
+    <form id="frm" novalidate>
+      <!-- Job title -->
+      <div class="field">
+        <label for="title">Job title <span style="color:var(--green)">*</span></label>
+        <input type="text" id="title" maxlength="70" placeholder="e.g. React developer for SaaS dashboard" required>
+        <div class="char" id="titleLen">0 / 70</div>
+      </div>
+
+      <!-- Category & sub-category -->
+      <div class="field">
+        <label for="cat">Category <span style="color:var(--green)">*</span></label>
+        <select id="cat" required>
+          <option value="" disabled selected>Select a category</option>
+          <option value="dev">Web, Mobile & Software Dev</option>
+          <option value="design">Design & Creative</option>
+          <option value="writing">Writing & Translation</option>
+          <option value="marketing">Sales & Marketing</option>
+          <option value="support">Admin & Customer Support</option>
+          <option value="finance">Finance & Accounting</option>
+        </select>
+      </div>
+
+      <div class="field" id="subWrap" style="display:none">
+        <label for="sub">Sub-category</label>
+        <select id="sub">
+          <option value="" disabled selected>Select a sub-category</option>
+        </select>
+      </div>
+
+      <!-- Project type -->
+      <div class="field">
+        <label for="ptype">Project type</label>
+        <select id="ptype">
+          <option selected>One-time project</option>
+          <option>Ongoing project</option>
+          <option>Consultation</option>
+        </select>
+      </div>
+
+      <!-- Description -->
+      <div class="field">
+        <label for="desc">Describe what you need <span style="color:var(--green)">*</span></label>
+        <textarea id="desc" rows="6" maxlength="2000" placeholder="Outline goals, deliverables and any special requirements…" required></textarea>
+        <div class="char" id="descLen">0 / 2000</div>
+      </div>
+
+      <!-- Visibility -->
+      <div class="field">
+        <label for="vis">Visibility</label>
+        <select id="vis">
+          <option>Public – visible to all freelancers</option>
+          <option>Invite-only – visible to invited talent</option>
+        </select>
+      </div>
+
+      <!-- CTA -->
+      <div class="actions">
+        <button type="submit" class="btn">Save & Continue →</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<script>
+/* ---- live counters ---- */
+const t=document.getElementById('title'), d=document.getElementById('desc');
+t.addEventListener('input',()=>titleLen.textContent=`${t.value.length} / 70`);
+d.addEventListener('input',()=>descLen.textContent=`${d.value.length} / 2000`);
+
+/* ---- dynamic sub-cats ---- */
+const cat=document.getElementById('cat'), sub=document.getElementById('sub'), subWrap=document.getElementById('subWrap');
+const options={
+  dev:['Front-end Dev','Back-end Dev','Full-stack Dev','Mobile App Dev','QA & Testing'],
+  design:['UX /UI','Branding','Illustration','Motion Graphics','3D Modelling'],
+  writing:['Copywriting','Technical writing','Editing & Proofing','Transcription','Localization'],
+  marketing:['SEO','Social Media','Email Marketing','Lead Generation','Ad Campaigns'],
+  support:['Customer Service','Virtual Assistant','Data Entry','Technical Support'],
+  finance:['Bookkeeping','Financial Analysis','Payroll','Tax Preparation']
+};
+cat.addEventListener('change',e=>{
+  const list=options[e.target.value]||[];
+  sub.innerHTML='<option disabled selected>Select a sub-category</option>'+list.map(v=>`<option>${v}</option>`).join('');
+  subWrap.style.display=list.length?'block':'none';
+});
+
+/* ---- simple validation demo ---- */
+document.getElementById('frm').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!t.value.trim()||!cat.value||!d.value.trim()){
+    alert('Please complete required fields');return;
+  }
+  // Here you would save to state / backend then navigate:
+  alert('Step 1 saved! (demo)\nProceeding to Step 2.');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Xwork • Welcome</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-GNlWpU3lQptXlFQjZ4Eyg4teToxgUrAx0ZJkOX5zW+s2fp8cNWbnB1ZqG4y6RyZqycVrV+CPKD4TObo3BMWzig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+:root{
+  --x-green:#14A800;
+  --x-green-dark:#0F8F7B;
+  --glass-bg:rgba(255,255,255,.65);
+  --glass-border:rgba(255,255,255,.35);
+  --grey-100:#f3f4f6;
+  --grey-200:#e5e7eb;
+  --grey-400:#9ca3af;
+  --grey-700:#374151;
+  --grey-900:#111827;
+  --radius:18px;
+  --t-fast:220ms cubic-bezier(.4,0,.2,1);
+}
+
+/* Reset */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  min-height:100vh;overflow:hidden;
+  background:linear-gradient(130deg,#e9fdf4 0%,#e9f3ff 40%,#f9edff 100%);
+  background-size:200% 200%;animation:bgShift 20s ease infinite;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--grey-900);
+}
+@keyframes bgShift{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+}
+
+/* Constellation dots */
+.dot{
+  position:fixed;border-radius:50%;pointer-events:none;
+  background:rgba(255,255,255,.8);mix-blend-mode:overlay;
+  width:4px;height:4px;opacity:.9;transition:transform .6s ease,opacity .6s ease;
+}
+
+h1{
+  font-family:'Cinzel',serif;
+  font-size:2.1rem;font-weight:700;letter-spacing:.5px;
+  margin-bottom:3rem;text-align:center;
+}
+
+.container{
+  display:flex;gap:2.2rem;flex-wrap:wrap;justify-content:center;padding:0 1rem;
+}
+
+.card{
+  flex:1 1 280px;max-width:360px;
+  padding:2.7rem 2.2rem;background:var(--glass-bg);
+  border:1px solid var(--glass-border);border-radius:var(--radius);
+  backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);
+  box-shadow:0 18px 28px rgba(0,0,0,.12);
+  text-align:center;cursor:pointer;transition:transform var(--t-fast),box-shadow var(--t-fast);
+  position:relative;
+}
+.card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 25px 40px rgba(0,0,0,.16);
+}
+.card i{
+  font-size:2.8rem;color:var(--x-green-dark);margin-bottom:1.3rem;
+}
+.card h2{
+  font-size:1.35rem;font-weight:600;margin-bottom:.7rem;font-family:'Cinzel',serif;
+}
+.card p{font-size:.95rem;color:var(--grey-700);line-height:1.45}
+.card .cta{
+  display:inline-block;margin-top:1.7rem;padding:.75rem 1.55rem;
+  border-radius:var(--radius);background:var(--x-green);color:#fff;font-weight:500;
+  transition:background var(--t-fast);
+}
+.card .cta:hover{background:var(--x-green-dark);text-decoration:none}
+
+/* footer */
+footer{
+  position:fixed;bottom:.8rem;width:100%;text-align:center;
+  font-size:.8rem;color:var(--grey-400)
+}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+
+<h1>Welcome to <span style="color:var(--x-green)">Xwork</span></h1>
+
+<div class="container">
+  <!-- CLIENT CARD -->
+  <article class="card" onclick="location.href='#';" tabindex="0">
+    <i class="fa-solid fa-briefcase"></i>
+    <h2>Hire&nbsp;Talent</h2>
+    <p>Post a job, scout vetted experts, and collaborate confidently with secure escrow payments.</p>
+    <span class="cta">Post a Job</span>
+  </article>
+
+  <!-- FREELANCER CARD -->
+  <article class="card" onclick="location.href='#';" tabindex="0">
+    <i class="fa-solid fa-user-astronaut"></i>
+    <h2>Find&nbsp;Work</h2>
+    <p>Showcase your skills, apply to premium gigs, and get paid faster with X-Protect escrow.</p>
+    <span class="cta">Browse Gigs</span>
+  </article>
+</div>
+
+<footer>
+  © 2026 – 2030 Xwork Global Inc. by LVS Private Limited Corporation · <a href="#">Privacy</a> · <a href="#">Cookies</a>
+</footer>
+
+<!-- JS: constellation dots + card-tilt -->
+<script>
+/* -------- Constellation dots follow cursor ---------- */
+const DOT_COUNT=35, dots=[];
+for(let i=0;i<DOT_COUNT;i++){
+  const d=document.createElement('div');
+  d.className='dot';
+  document.body.appendChild(d);
+  dots.push({el:d,x:window.innerWidth*Math.random(),y:window.innerHeight*Math.random(),vx:0,vy:0});
+}
+window.addEventListener('mousemove',e=>{
+  dots.forEach(o=>{
+    o.vx+=(e.clientX-o.x)*0.0005;
+    o.vy+=(e.clientY-o.y)*0.0005;
+  });
+});
+function moveDots(){
+  dots.forEach(o=>{
+    o.vx*=0.92;o.vy*=0.92;
+    o.x+=o.vx;o.y+=o.vy;
+    o.el.style.transform=`translate3d(${o.x}px,${o.y}px,0)`;
+    o.el.style.opacity=0.6+Math.sin((o.x+o.y)/1000)*0.3;
+  });
+  requestAnimationFrame(moveDots);
+}
+moveDots();
+
+/* -------- Optional: keyboard activation of cards ----- */
+document.querySelectorAll('.card').forEach(c=>{
+  c.addEventListener('keyup',e=>{if(e.key==='Enter')c.click();});
+});
+</script>
+</body>
+</html>
